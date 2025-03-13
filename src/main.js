@@ -1,4 +1,3 @@
-// main.js
 import izitoast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
@@ -9,26 +8,24 @@ const input = document.getElementById("search-input");
 const gallery = document.getElementById("gallery");
 const loadingSpinner = document.getElementById("loading-spinner");
 
-const API_KEY = "49228326-f0295c59acbd8047419a0b87e"; // Burada kendi API anahtarınızı kullanın
+const API_KEY = "49228326-f0295c59acbd8047419a0b87e";
 
-// Görselleri API'den çekmek için kullanılan fonksiyon
 const fetchImages = (searchQuery) => {
   const url = `https://pixabay.com/api/?key=${API_KEY}&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true`;
 
   return fetch(url)
     .then((response) => response.json())
-    .then((data) => data.hits) // Arama sonuçlarını döndürür
+    .then((data) => data.hits)
     .catch((error) => console.error("Error fetching images:", error));
 };
 
-// Form submit olayı
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const query = input.value.trim();
   if (query === "") return;
 
-  gallery.innerHTML = ""; // Önceki sonuçları temizle
-  loadingSpinner.classList.remove("hidden"); // Yükleme göstergesini göster
+  gallery.innerHTML = "";
+  loadingSpinner.classList.remove("hidden");
 
   fetchImages(query)
     .then((images) => {
@@ -42,11 +39,10 @@ form.addEventListener("submit", (event) => {
       }
     })
     .finally(() => {
-      loadingSpinner.classList.add("hidden"); // Yükleme göstergesini gizle
+      loadingSpinner.classList.add("hidden");
     });
 });
 
-// Görselleri galeriye ekleyen fonksiyon
 function renderGallery(images) {
   const markup = images
     .map(
@@ -76,7 +72,6 @@ function renderGallery(images) {
 
   gallery.innerHTML = markup;
 
-  // SimpleLightbox'ı yenile
   const lightbox = new SimpleLightbox(".gallery-item", {
     captionsData: "alt",
     captionDelay: 250,
